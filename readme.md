@@ -16,8 +16,10 @@ VOLUMES_DRIVER=local
 
 # 为所有存储系统选择您机器上的存储路径
 DATA_PATH_HOST=./fresns_data
-# 本地文件
-LOCAL_FILE_PATH=./app_fresns
+
+# 本地文件地址(开发使用)
+# LOCAL_FILE_PATH=./app_fresns
+LOCAL_FILE_PATH=app
 
 # 工作目录
 APP_PATH=/www/app/
@@ -51,6 +53,7 @@ NGINX_SSL_PATH=./nginx/ssl/
 
 # 指向APP_CODE_PATH_HOST在容器中的位置
 APP_CODE_PATH_CONTAINER=$APP_PATH
+
 
 ```
 
