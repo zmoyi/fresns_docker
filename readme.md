@@ -5,7 +5,7 @@
 ## 使用
 
 ```shell
-git clone 
+git clone https://github.com/zmoyi/fresns_docker.git
 
 cp .env.example .env
 ```
@@ -55,6 +55,25 @@ APP_CODE_PATH_CONTAINER=$APP_PATH
 ```
 
 扩展可参考:[**Laradock**](https://laradock.io/)
+
+## docker compose
+```shell
+# 打包
+docker compose build fresns
+docker compose build nginx
+docker compose build db
+docker compose build redis
+
+# 运行容器
+docker compose up -d
+
+# 关闭所有正在运行的容器
+docker-compose stop
+
+#删除所有现有容器
+docker-compose down
+```
+详参: [**laradock文档**](https://laradock.io/documentation/)
 
 ## 已装扩展
 
