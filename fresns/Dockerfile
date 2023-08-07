@@ -6,7 +6,7 @@ ARG USER
 
 # add WORKDIR
 WORKDIR ${APP_PATH}
-
+RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
 # add composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y curl \
     libfreetype-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
+    libzip-dev \
     && pecl install redis-5.3.7 \
     && docker-php-ext-install pdo_mysql \
     exif \
@@ -24,7 +25,7 @@ RUN apt-get update && apt-get install -y curl \
     iconv \
     mysqli \
     opcache \
-    sockets
+    sockets 
 
 ADD https://app.fresns.cn/latest.zip ${APP_PATH}
 
@@ -34,4 +35,4 @@ RUN unzip latest.zip && rm latest.zip \
     && chmod 755 -R /www/app/ \
     && chown -R ${USER}:${USER} /www/app/
 
-USER ${USER}
+# USER ${USER}
