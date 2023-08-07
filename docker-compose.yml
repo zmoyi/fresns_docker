@@ -12,6 +12,7 @@ services:
       context: ./fresns
       args:
         - APP_PATH=${APP_PATH}
+        - USER=www-data
       dockerfile: Dockerfile
     image: fresns
     container_name: fresns
