@@ -6,7 +6,6 @@ ARG USER
 
 # add WORKDIR
 WORKDIR ${APP_PATH}
-RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
 # add composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -35,4 +34,4 @@ RUN unzip latest.zip && rm latest.zip \
     && chmod 755 -R /www/app/ \
     && chown -R ${USER}:${USER} /www/app/
 
-# USER ${USER}
+USER ${USER}
