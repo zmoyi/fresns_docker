@@ -44,6 +44,7 @@ services:
       - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
       - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
     ports:
+      # 生成环境请注释掉端口
       - "${MYSQL_PORT}:3306"
     networks:
       - fresns
@@ -59,15 +60,16 @@ services:
       - ${DATA_PATH_HOST}/redis:/data
     command: --requirepass ${REDIS_PASSWORD}
     ports:
+      # 生成环境请注释掉端口
       - "${REDIS_PORT}:6379"
     networks:
       - fresns
-  
+
   nginx:
     build:
       context: ./nginx
       args:
-        - CHANGE_SOURCE=true
+        - CHANGE_SOURCE=${CHANGE_SOURCE}
         - PHP_UPSTREAM_CONTAINER=${NGINX_PHP_UPSTREAM_CONTAINER}
         - PHP_UPSTREAM_PORT=${NGINX_PHP_UPSTREAM_PORT}
         - http_proxy
@@ -87,7 +89,20 @@ services:
       - fresns
     networks:
       - fresns
-
-    
-
-    
+  worker:
+    build:
+      context: ./worker
+      args:
+        - CHANGE_SOURCE=${CHANGE_SOURCE}
+        - APP_PATH=${APP_PATH}
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: fresns_worker
+    volumes:
+      - ${LOCAL_FILE_PATH}:${APP_CODE_PATH_CONTAINER}
+      - ./worker/conf:/etc/supervisord.d/
+      - ./logs/worker:/var/log/worker
+    depends_on:
+      - fresns
+    networks:
+      - fresns
