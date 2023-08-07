@@ -3,3 +3,5 @@
 /fresns_data
 /.idea
 /logs
+/worker/conf/laravel-scheduler.conf
+/worker/conf/laravel-worker.conf
