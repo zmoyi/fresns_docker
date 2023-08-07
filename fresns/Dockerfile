@@ -24,7 +24,8 @@ RUN apt-get update && apt-get install -y curl \
     iconv \
     mysqli \
     opcache \
-    sockets 
+    sockets \
+    zip
 
 ADD https://app.fresns.cn/latest.zip ${APP_PATH}
 
