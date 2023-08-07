@@ -7,15 +7,13 @@ volumes:
   db_data:
   redis_data:
 services:
-  fresns:
+  app:
     build:
       context: ./fresns
       args:
         - APP_PATH=${APP_PATH}
         - USER=www-data
-      dockerfile: Dockerfile
-    image: fresns
-    container_name: fresns
+    container_name: fresns_app
     restart: unless-stopped
     working_dir: ${APP_PATH}
     volumes:
@@ -30,8 +28,6 @@ services:
   db:
     build:
       context: ./mysql
-      dockerfile: Dockerfile
-    image: mysql
     container_name: fresns_db
     restart: unless-stopped
     environment:
@@ -52,8 +48,6 @@ services:
   redis:
     build:
       context: ./redis
-      dockerfile: Dockerfile
-    image: redis
     container_name: fresns_redis
     restart: unless-stopped
     volumes:
@@ -86,7 +80,7 @@ services:
       - "${NGINX_HOST_HTTP_PORT}:80"
       - "${NGINX_HOST_HTTPS_PORT}:443"
     depends_on:
-      - fresns
+      - app
     networks:
       - fresns
   worker:
@@ -103,6 +97,6 @@ services:
       - ./worker/conf:/etc/supervisord.d/
       - ./logs/worker:/var/log/worker
     depends_on:
-      - fresns
+      - app
     networks:
       - fresns
